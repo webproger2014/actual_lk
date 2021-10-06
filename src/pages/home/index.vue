@@ -14,7 +14,8 @@
           </div>
         </div>
     </div>
-    <q-footer v-if="!$_.isEmpty($store.state.user) && $_.isEmpty($store.state.user.city)">
+    {{  $store.state.user }}
+    <q-footer v-if="statusCity === 2">
           <q-toolbar class="shadow-1 bg-yellow-1 row text-black text-left justify-left">
             <div class="col-auto q-pa-md">Выберете ваш город:</div>
             <q-select
@@ -34,7 +35,6 @@
               @click="onPushcityes"
             ></q-btn>
           </q-toolbar>
-
         </q-footer>
   </div>
 </template>
@@ -48,6 +48,7 @@ export default {
     return {
       dialog: true,
       cityOn: false,
+      statusCity: 0,
       file: '',
       selectCity: { value: 2229, label: 'Тюмень', sublabel: 'Тюменская обл.' },
       cityes: [
@@ -93,6 +94,12 @@ export default {
       }
 
       this.$watch('$store.state.user.city', () => {
+        if (!this.$_.isEmpty(this.$store.state.user.city)) {
+          this.statusCity = 1
+        } else {
+          this.statusCity = 2
+        }
+
         this.selectCity = { ...this.$store.state.user.city }
       })
 
