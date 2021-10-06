@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([[23],{a1ef:function(e,n,t){"use strict";t.r(n);var l=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",{attrs:{id:"collection"}},[t("keep-alive",[t("router-view")],1)],1)},c=[],i={name:"collection"},o=i,a=t("2877"),r=Object(a["a"])(o,l,c,!1,null,null,null);n["default"]=r.exports}}]);
