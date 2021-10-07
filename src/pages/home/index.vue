@@ -14,7 +14,6 @@
           </div>
         </div>
     </div>
-    {{  $store.state.user }}
     <q-footer v-if="statusCity === 2">
           <q-toolbar class="shadow-1 bg-yellow-1 row text-black text-left justify-left">
             <div class="col-auto q-pa-md">Выберете ваш город:</div>

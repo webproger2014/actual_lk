@@ -21,7 +21,7 @@
           v-for="(slide, index) in slideItems"
           :key="index"
           :name="index"
-          :img-src="$store.state.constant.CDN_DOMAIN + slide.url"
+          :img-src="$store.state.constant.CDN_DOMAIN +  (slide.url ? slide.url : slide)"
           :class="[bgSizeAuto ? 'auto' : '']"
           ></q-carousel-slide>
 
@@ -90,7 +90,14 @@ export default {
           this.bgSizeAuto = false
         }
       }
-      image.src = this.$store.state.constant.CDN_DOMAIN + this.slideItems[this.slide].url
+
+      let url = this.slideItems[this.slide].url
+
+      if (!url) {
+        url = this.slideItems[this.slide]
+      }
+      console.log(url)
+      image.src = this.$store.state.constant.CDN_DOMAIN + url
     }
   }
 }

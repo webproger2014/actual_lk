@@ -34,6 +34,14 @@ Vue.filter('dateString2', (v) => {
   })
 })
 
+Vue.filter('dateString3', (v) => {
+  let d = v.split('.')
+  return date.formatDate(`${d[1]}.${d[0]}.${d[2]}`, 'MMMM DD, YYYY', {
+    months: MONTHS_RUS,
+    monthsShort: MONTH_SHORT_RUS
+  })
+})
+
 Vue.filter('dateN', (v) => date.formatDate(v, 'DD.MM.YYYY'))
 
 Vue.filter('currency', (v) => {
@@ -43,7 +51,6 @@ Vue.filter('currency', (v) => {
 
 Vue.filter('number', (v) => {
   v = v.toString().replace('.', ',')
-  console.log(v)
   return v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
 })
 
