@@ -69,14 +69,6 @@
       </q-item-section>
     </q-item>
 
-    <q-item clickable v-ripple to="/services">
-      <q-item-section avatar class="text-grey-5">
-        <q-icon name="dialpad"></q-icon>
-      </q-item-section>
-      <q-item-section>
-       Услуги
-      </q-item-section>
-    </q-item>
     <q-item clickable v-ripple to="/calculate">
       <q-item-section avatar class="text-grey-5">
         <q-icon name="bubble_chart"></q-icon>

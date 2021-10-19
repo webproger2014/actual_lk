@@ -10,15 +10,15 @@
       </div>
     </div>
 
-    <div v-show="statusProject === 1">
-      <div v-if="project.url_ar">
+    <div>
+      <div v-if="urlArStatus === 1">
         <q-item
           clickable
           v-ripple
           @click="
             $refs.doc.open(
               $event,
-              $store.state.constant.CDN_DOMAIN + project.url_ar
+              $store.state.constant.CDN_DOMAIN + urlAr
             )
           "
         >
@@ -33,15 +33,28 @@
           </q-item-section>
         </q-item>
       </div>
+      <div v-else-if="urlArStatus === 2">
+        <q-item
+          clickable
+          v-ripple
+        >
+          <q-item-section avatar>
+            <img class="cur" src="/statics/icons/pdf_min.png" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label lines="1" text-color="red"><span class="text-amber-10">Архитектурный раздел не загружен</span></q-item-label>
+          </q-item-section>
+        </q-item>
+      </div>
 
-      <div v-if="project.url_cr">
+      <div v-if="urlCrStatus === 1">
         <q-item
           clickable
           v-ripple
           @click="
             $refs.doc.open(
               $event,
-              $store.state.constant.CDN_DOMAIN + project.url_cr
+              $store.state.constant.CDN_DOMAIN + urlCr
             )
           "
         >
@@ -56,6 +69,56 @@
           </q-item-section>
         </q-item>
       </div>
+      <div v-else-if="urlCrStatus === 2">
+        <q-item
+          clickable
+          v-ripple
+        >
+          <q-item-section avatar>
+            <img class="cur" src="/statics/icons/pdf_min.png" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label lines="1" text-color="red"><span class="text-amber-10">Конструктивный раздел не загружен</span></q-item-label>
+          </q-item-section>
+        </q-item>
+      </div>
+
+      <div v-if="urlIsStatus === 1">
+        <q-item
+          clickable
+          v-ripple
+          @click="
+            $refs.doc.open(
+              $event,
+              $store.state.constant.CDN_DOMAIN + urlIs
+            )
+          "
+        >
+          <q-item-section avatar>
+            <img class="cur" src="/statics/icons/pdf_min.png" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label lines="1">Инженерные сети</q-item-label>
+          </q-item-section>
+          <q-item-section side>
+            <q-icon name="visibility" color="grey"></q-icon>
+          </q-item-section>
+        </q-item>
+      </div>
+      <div v-else-if="urlIsStatus === 2">
+        <q-item
+          clickable
+          v-ripple
+        >
+          <q-item-section avatar>
+            <img class="cur" src="/statics/icons/pdf_min.png" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label lines="1" text-color="red"><span class="text-amber-10">Инженерный раздел не загружен</span></q-item-label>
+          </q-item-section>
+        </q-item>
+      </div>
+
     </div>
 
     <printdoc ref="doc"></printdoc>
@@ -71,15 +134,13 @@ export default {
   data () {
     return {
       statusProject: 0,
-      project: {
-        id: null,
-        user_id: null,
-        contract_number: null,
-        contract_date: null,
-        name: null,
-        url_ar: '',
-        url_cr: ''
-      }
+      urlAr: '',
+      urlArStatus: 0,
+      urlCr: '',
+      urlCrStatus: '',
+      urlIs: '',
+      urlIsStatus: 0
+
     }
   },
 
@@ -97,24 +158,32 @@ export default {
 
     $_getProject () {
       if (!this.$_.isEmpty(this.$store.state.user.activeContract)) {
-        let project = this.$axios.get(
-          `contract/get_contract/${this.$store.state.user.activeContract.id}`
-        )
-        project
-          .then(rs => {
-            if (!this.$_.isEmpty(rs.data)) {
-              this.project = rs.data
-              this.statusProject = 1
-            } else {
-              this.statusProject = 2
-            }
-          })
-          .catch(rs => {
-            this.statusProject = 2
-          })
-      } else {
-        this.project = []
-        this.statusProject = 2
+        this.$axios.post(`docs/get_ar/${this.$store.state.user.activeContract.id}`).then(rs => {
+          if (!this.$_.isEmpty(rs.data)) {
+            this.urlAr = rs.data.urls[0]
+            this.urlArStatus = 1
+          } else {
+            this.urlArStatus = 2
+          }
+        })
+
+        this.$axios.post(`docs/get_cr/${this.$store.state.user.activeContract.id}`).then(rs => {
+          if (!this.$_.isEmpty(rs.data)) {
+            this.urlCr = rs.data.urls[0]
+            this.urlCrStatus = 1
+          } else {
+            this.urlCrStatus = 2
+          }
+        })
+
+        this.$axios.post(`docs/get_is/${this.$store.state.user.activeContract.id}`).then(rs => {
+          if (!this.$_.isEmpty(rs.data)) {
+            this.urlIs = rs.data.urls[0]
+            this.urlIsStatus = 1
+          } else {
+            this.urlIsStatus = 2
+          }
+        })
       }
     }
   }
