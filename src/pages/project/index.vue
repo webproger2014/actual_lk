@@ -13,12 +13,14 @@
     <div>
       <div v-if="urlArStatus === 1">
         <q-item
+          v-for="(url, index) in urlAr"
+          :key="index"
           clickable
           v-ripple
           @click="
             $refs.doc.open(
               $event,
-              $store.state.constant.CDN_DOMAIN + urlAr
+              $store.state.constant.CDN_DOMAIN + url
             )
           "
         >
@@ -49,12 +51,14 @@
 
       <div v-if="urlCrStatus === 1">
         <q-item
+        v-for="(url, index) in urlCrStatus"
+        :key="index"
           clickable
           v-ripple
           @click="
             $refs.doc.open(
               $event,
-              $store.state.constant.CDN_DOMAIN + urlCr
+              $store.state.constant.CDN_DOMAIN + url
             )
           "
         >
@@ -85,12 +89,14 @@
 
       <div v-if="urlIsStatus === 1">
         <q-item
+        v-for="(url, index) in urlIs"
+        :key="index"
           clickable
           v-ripple
           @click="
             $refs.doc.open(
               $event,
-              $store.state.constant.CDN_DOMAIN + urlIs
+              $store.state.constant.CDN_DOMAIN + url
             )
           "
         >
@@ -134,11 +140,11 @@ export default {
   data () {
     return {
       statusProject: 0,
-      urlAr: '',
+      urlAr: [],
       urlArStatus: 0,
-      urlCr: '',
+      urlCr: [],
       urlCrStatus: '',
-      urlIs: '',
+      urlIs: [],
       urlIsStatus: 0
 
     }
@@ -160,7 +166,7 @@ export default {
       if (!this.$_.isEmpty(this.$store.state.user.activeContract)) {
         this.$axios.post(`docs/get_ar/${this.$store.state.user.activeContract.id}`).then(rs => {
           if (!this.$_.isEmpty(rs.data)) {
-            this.urlAr = rs.data.urls[0]
+            this.urlAr = rs.data.urls
             this.urlArStatus = 1
           } else {
             this.urlArStatus = 2
@@ -169,7 +175,7 @@ export default {
 
         this.$axios.post(`docs/get_cr/${this.$store.state.user.activeContract.id}`).then(rs => {
           if (!this.$_.isEmpty(rs.data)) {
-            this.urlCr = rs.data.urls[0]
+            this.urlCr = rs.data.urls
             this.urlCrStatus = 1
           } else {
             this.urlCrStatus = 2
@@ -178,7 +184,7 @@ export default {
 
         this.$axios.post(`docs/get_is/${this.$store.state.user.activeContract.id}`).then(rs => {
           if (!this.$_.isEmpty(rs.data)) {
-            this.urlIs = rs.data.urls[0]
+            this.urlIs = rs.data.urls
             this.urlIsStatus = 1
           } else {
             this.urlIsStatus = 2
