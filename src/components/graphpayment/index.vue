@@ -15,7 +15,7 @@
         :pagination.sync="pagination"
       >
         <template v-slot:body="props" hide-bottom="false" pagesNumber="15">
-          <q-tr :props="props" class="bg-color-red" :class="checkDatePayment(props.row.date_payment, props.row.status)">
+          <q-tr :props="props" class="bg-color-red" :class="checkDatePayment(props.row.date_payment, props.row.status)" v-if="props.row.type != 2">
             <q-td key="title" :props="props" class="text-bold">
               {{ props.row.title }}
             </q-td>

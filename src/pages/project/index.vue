@@ -51,7 +51,7 @@
 
       <div v-if="urlCrStatus === 1">
         <q-item
-        v-for="(url, index) in urlCrStatus"
+        v-for="(url, index) in urlCr"
         :key="index"
           clickable
           v-ripple
